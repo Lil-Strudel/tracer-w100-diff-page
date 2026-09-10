@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Aid stations are worked outdoors, often overnight and often on a phone held
+   at arm's length, so the base size is larger than a typical web app. */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  overscroll-behavior-y: contain;
+}

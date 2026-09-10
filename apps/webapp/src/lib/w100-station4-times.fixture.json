@@ -1,0 +1,2193 @@
+[
+ {
+  "RunnerNumber": 239,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 21480,
+  "ElapsedTimeOut": 21660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 214,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 22080,
+  "ElapsedTimeOut": 22200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 329,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 22440,
+  "ElapsedTimeOut": 22560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 264,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 22320,
+  "ElapsedTimeOut": 22680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 306,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23580,
+  "ElapsedTimeOut": 23700,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 193,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23580,
+  "ElapsedTimeOut": 23880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 333,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23640,
+  "ElapsedTimeOut": 23880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 334,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23640,
+  "ElapsedTimeOut": 23880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 174,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23760,
+  "ElapsedTimeOut": 23940,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 304,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23760,
+  "ElapsedTimeOut": 24060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 319,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 23940,
+  "ElapsedTimeOut": 24120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 283,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24000,
+  "ElapsedTimeOut": 24300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 305,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24120,
+  "ElapsedTimeOut": 24300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 144,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24120,
+  "ElapsedTimeOut": 24540,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 299,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24420,
+  "ElapsedTimeOut": 24600,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 213,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24300,
+  "ElapsedTimeOut": 24660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 137,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24360,
+  "ElapsedTimeOut": 24660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 149,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24420,
+  "ElapsedTimeOut": 25080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 209,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24480,
+  "ElapsedTimeOut": 24780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 224,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24660,
+  "ElapsedTimeOut": 24960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 246,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24900,
+  "ElapsedTimeOut": 25140,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 323,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24780,
+  "ElapsedTimeOut": 25380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 155,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25080,
+  "ElapsedTimeOut": 25260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 103,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24840,
+  "ElapsedTimeOut": 25320,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 197,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 24900,
+  "ElapsedTimeOut": 25260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 86,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25140,
+  "ElapsedTimeOut": 25380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 58,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25380,
+  "ElapsedTimeOut": 26340,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 248,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25680,
+  "ElapsedTimeOut": 26100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 25,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25740,
+  "ElapsedTimeOut": 26100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 338,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25860,
+  "ElapsedTimeOut": 26160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 173,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26100,
+  "ElapsedTimeOut": 26280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 234,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26100,
+  "ElapsedTimeOut": 26280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 259,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 25860,
+  "ElapsedTimeOut": 26400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 257,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26220,
+  "ElapsedTimeOut": 26460,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 324,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26100,
+  "ElapsedTimeOut": 26520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 142,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26220,
+  "ElapsedTimeOut": 26640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 165,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26760,
+  "ElapsedTimeOut": 26760,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 282,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26400,
+  "ElapsedTimeOut": 26940,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 70,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26460,
+  "ElapsedTimeOut": 26760,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 315,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26400,
+  "ElapsedTimeOut": 26640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 266,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26580,
+  "ElapsedTimeOut": 27060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 298,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26880,
+  "ElapsedTimeOut": 27180,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 206,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27000,
+  "ElapsedTimeOut": 27240,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 54,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27060,
+  "ElapsedTimeOut": 27360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 332,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 26880,
+  "ElapsedTimeOut": 27360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 129,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27000,
+  "ElapsedTimeOut": 27420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 226,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27000,
+  "ElapsedTimeOut": 27420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 337,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27060,
+  "ElapsedTimeOut": 27480,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 272,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27240,
+  "ElapsedTimeOut": 27660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 94,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27120,
+  "ElapsedTimeOut": 27780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 43,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27240,
+  "ElapsedTimeOut": 27900,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 230,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27780,
+  "ElapsedTimeOut": 27960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 79,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27780,
+  "ElapsedTimeOut": 28080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 235,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27600,
+  "ElapsedTimeOut": 28200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 36,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27960,
+  "ElapsedTimeOut": 28320,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 31,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28020,
+  "ElapsedTimeOut": 28380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 78,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28080,
+  "ElapsedTimeOut": 28380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 314,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27720,
+  "ElapsedTimeOut": 28560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 262,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27780,
+  "ElapsedTimeOut": 28800,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 219,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27840,
+  "ElapsedTimeOut": 28560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 339,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 27960,
+  "ElapsedTimeOut": 28560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 37,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28140,
+  "ElapsedTimeOut": 28500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 82,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 28920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 211,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 29160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 290,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 29220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 258,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 29100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 170,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 29160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 42,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28440,
+  "ElapsedTimeOut": 28500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 179,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28200,
+  "ElapsedTimeOut": 29100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 228,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28320,
+  "ElapsedTimeOut": 28860,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 202,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28320,
+  "ElapsedTimeOut": 29040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 269,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28320,
+  "ElapsedTimeOut": 29400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 104,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28320,
+  "ElapsedTimeOut": 28920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 223,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28440,
+  "ElapsedTimeOut": 29280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 243,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28440,
+  "ElapsedTimeOut": 29220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 328,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28440,
+  "ElapsedTimeOut": 29280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 177,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28440,
+  "ElapsedTimeOut": 29040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 51,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28500,
+  "ElapsedTimeOut": 29220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 176,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28500,
+  "ElapsedTimeOut": 29040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 245,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28560,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 71,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28680,
+  "ElapsedTimeOut": 29040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 119,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29100,
+  "ElapsedTimeOut": 29520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 222,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29160,
+  "ElapsedTimeOut": 29520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 85,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29340,
+  "ElapsedTimeOut": 29580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 322,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29100,
+  "ElapsedTimeOut": 29820,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 270,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28920,
+  "ElapsedTimeOut": 29820,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 205,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 29880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 278,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 28920,
+  "ElapsedTimeOut": 30060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 311,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 30000,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 122,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 30000,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 143,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29580,
+  "ElapsedTimeOut": 30000,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 325,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 30840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 308,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 30780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 168,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29760,
+  "ElapsedTimeOut": 30420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 200,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29820,
+  "ElapsedTimeOut": 31080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 295,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29940,
+  "ElapsedTimeOut": 32100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 140,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29940,
+  "ElapsedTimeOut": 30120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 217,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29940,
+  "ElapsedTimeOut": 38880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 77,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30000,
+  "ElapsedTimeOut": 31380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 148,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30060,
+  "ElapsedTimeOut": 31680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 321,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30120,
+  "ElapsedTimeOut": 30720,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 300,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30240,
+  "ElapsedTimeOut": 30780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 274,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30300,
+  "ElapsedTimeOut": 30720,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 198,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30300,
+  "ElapsedTimeOut": 31200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 260,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30300,
+  "ElapsedTimeOut": 30840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 161,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30480,
+  "ElapsedTimeOut": 32160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 331,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30600,
+  "ElapsedTimeOut": 32340,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 291,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29460,
+  "ElapsedTimeOut": 30360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 271,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29880,
+  "ElapsedTimeOut": 30600,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 238,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 29820,
+  "ElapsedTimeOut": 30660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 229,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30600,
+  "ElapsedTimeOut": 31200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 242,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30600,
+  "ElapsedTimeOut": 31440,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 220,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30600,
+  "ElapsedTimeOut": 31200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 199,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30600,
+  "ElapsedTimeOut": 31500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 147,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30960,
+  "ElapsedTimeOut": 31200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 212,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30960,
+  "ElapsedTimeOut": 31740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 74,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30960,
+  "ElapsedTimeOut": 32400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 55,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30960,
+  "ElapsedTimeOut": 31860,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 111,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31080,
+  "ElapsedTimeOut": 32100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 316,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31080,
+  "ElapsedTimeOut": 31680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 231,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31080,
+  "ElapsedTimeOut": 31500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 312,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 31680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 92,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 31800,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 136,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 31920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 162,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 31920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 102,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 31920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 221,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 276,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 32220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 194,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 275,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 32220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 131,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 32280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 330,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32340,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 128,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 32400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 279,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 342,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 195,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32460,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 166,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31380,
+  "ElapsedTimeOut": 32700,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 81,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 32580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 46,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 32580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 185,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31980,
+  "ElapsedTimeOut": 32580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 183,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 32580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 296,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 32580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 215,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 204,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 32640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 113,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 32640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 190,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 32880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 343,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31680,
+  "ElapsedTimeOut": 32880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 100,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31320,
+  "ElapsedTimeOut": 33180,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 135,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 33000,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 327,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 33060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 277,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31980,
+  "ElapsedTimeOut": 33420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 303,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 31980,
+  "ElapsedTimeOut": 33480,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 57,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 33120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 187,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 33300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 17,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 33600,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 233,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 33600,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 126,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 33600,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 121,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 33660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 50,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32820,
+  "ElapsedTimeOut": 33660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 83,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 33780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 163,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 33300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 84,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32820,
+  "ElapsedTimeOut": 33360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 341,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32160,
+  "ElapsedTimeOut": 34020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 313,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 35160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 73,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 32580,
+  "ElapsedTimeOut": 34620,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 28,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 146,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 236,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 109,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 294,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 203,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 317,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 35220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 115,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33000,
+  "ElapsedTimeOut": 34080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 154,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 34380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 150,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 99,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 141,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 33900,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 326,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33240,
+  "ElapsedTimeOut": 34320,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 56,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 184,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34620,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 48,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 134,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 159,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 151,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 336,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 101,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33360,
+  "ElapsedTimeOut": 34500,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 125,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 35880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 192,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 34260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 293,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 34740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 301,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 34740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 218,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 34920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 107,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33540,
+  "ElapsedTimeOut": 35280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 118,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33600,
+  "ElapsedTimeOut": 34680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 340,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33600,
+  "ElapsedTimeOut": 34620,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 89,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33600,
+  "ElapsedTimeOut": 34740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 250,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33600,
+  "ElapsedTimeOut": 34320,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 227,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 35640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 346,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 34680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 88,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 35280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 210,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 34260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 91,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 35280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 249,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 34800,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 302,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 33900,
+  "ElapsedTimeOut": 35040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 120,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 34920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 186,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 35400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 87,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 36660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 114,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 36660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 345,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 35280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 284,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 35580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 68,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34260,
+  "ElapsedTimeOut": 35400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 110,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 34920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 232,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 35580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 45,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 36420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 201,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 36060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 247,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 40140,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 320,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30900,
+  "ElapsedTimeOut": 35880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 196,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34500,
+  "ElapsedTimeOut": 35640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 8,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34800,
+  "ElapsedTimeOut": 36060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 261,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34800,
+  "ElapsedTimeOut": 35700,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 80,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34800,
+  "ElapsedTimeOut": 35520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 240,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34800,
+  "ElapsedTimeOut": 36120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 244,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 34800,
+  "ElapsedTimeOut": 36300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 90,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35280,
+  "ElapsedTimeOut": 36300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 5,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35280,
+  "ElapsedTimeOut": 35880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 208,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35280,
+  "ElapsedTimeOut": 36120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 285,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35280,
+  "ElapsedTimeOut": 36360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 157,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35520,
+  "ElapsedTimeOut": 36540,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 335,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35520,
+  "ElapsedTimeOut": 36960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 268,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35520,
+  "ElapsedTimeOut": 37200,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 344,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35640,
+  "ElapsedTimeOut": 36660,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 130,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35820,
+  "ElapsedTimeOut": 36540,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 160,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35820,
+  "ElapsedTimeOut": 36060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 318,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35820,
+  "ElapsedTimeOut": 37080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 164,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35820,
+  "ElapsedTimeOut": 37080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 252,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 35820,
+  "ElapsedTimeOut": 37560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 63,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": 36960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 289,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": 36960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 18,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": 37140,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 35,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": 36960,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 175,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 182,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36000,
+  "ElapsedTimeOut": 37020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 75,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36360,
+  "ElapsedTimeOut": 37260,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 64,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36360,
+  "ElapsedTimeOut": 37740,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 280,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36360,
+  "ElapsedTimeOut": 38100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 38,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36360,
+  "ElapsedTimeOut": 37560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 310,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36360,
+  "ElapsedTimeOut": 37380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 96,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 38400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 13,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 37560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 132,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 37560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 3,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 38280,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 139,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 37380,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 30,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36600,
+  "ElapsedTimeOut": 37980,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 32,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 36900,
+  "ElapsedTimeOut": 38100,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 287,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 38040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 52,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 37860,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 53,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 38220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 33,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 37680,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 69,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 39300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 255,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38700,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 112,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 40560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 93,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 38160,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 256,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 38640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 124,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 37920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 309,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37020,
+  "ElapsedTimeOut": 38400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 117,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37320,
+  "ElapsedTimeOut": 38640,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 153,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37320,
+  "ElapsedTimeOut": 38580,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 6,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37320,
+  "ElapsedTimeOut": 38040,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 72,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37320,
+  "ElapsedTimeOut": 38940,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 286,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37680,
+  "ElapsedTimeOut": 39780,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 253,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37680,
+  "ElapsedTimeOut": 39180,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 288,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37680,
+  "ElapsedTimeOut": 38520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 263,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37680,
+  "ElapsedTimeOut": 38520,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 191,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37680,
+  "ElapsedTimeOut": 39300,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 34,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37800,
+  "ElapsedTimeOut": 38400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 273,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37800,
+  "ElapsedTimeOut": 40980,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 216,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37800,
+  "ElapsedTimeOut": 39840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 21,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37800,
+  "ElapsedTimeOut": 38760,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 40,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37800,
+  "ElapsedTimeOut": 39420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 22,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38220,
+  "ElapsedTimeOut": 39360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 15,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38220,
+  "ElapsedTimeOut": 39420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 138,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 37320,
+  "ElapsedTimeOut": 38400,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 62,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 40500,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 2,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38340,
+  "ElapsedTimeOut": 38880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 116,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38340,
+  "ElapsedTimeOut": 39120,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 156,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 39360,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 11,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 39420,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 65,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 40500,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 95,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 39840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 39,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 39840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 133,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 39840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 307,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39120,
+  "ElapsedTimeOut": 39840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 225,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38340,
+  "ElapsedTimeOut": 40020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 181,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 40020,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 297,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 38460,
+  "ElapsedTimeOut": 40080,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 24,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39900,
+  "ElapsedTimeOut": 40560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 251,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39900,
+  "ElapsedTimeOut": 40560,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 76,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39900,
+  "ElapsedTimeOut": 40620,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 9,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39900,
+  "ElapsedTimeOut": 40920,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 108,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39120,
+  "ElapsedTimeOut": 41220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 14,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 39900,
+  "ElapsedTimeOut": 41220,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 172,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 41460,
+  "ElapsedTimeOut": 41880,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 158,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 40680,
+  "ElapsedTimeOut": 42060,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 20,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 42000,
+  "ElapsedTimeOut": 42540,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 27,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 42000,
+  "ElapsedTimeOut": 42840,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 106,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 42000,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 49,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 42840,
+  "ElapsedTimeOut": 43140,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 97,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 43620,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 145,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 43680,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 178,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 30000,
+  "ElapsedTimeOut": 30900,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 1,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 46200,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 292,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 46320,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 171,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 43200,
+  "ElapsedTimeOut": -1,
+  "Locked": 0
+ },
+ {
+  "RunnerNumber": 123,
+  "AidStationID": 4,
+  "ElapsedTimeIn": 21900,
+  "ElapsedTimeOut": 22200,
+  "Locked": 0
+ }
+]

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# terraform
+.terraform/
+# .terraform.lock.hcl is intentionally committed
+*.tfstate
+*.tfstate.*
+builds/
+tfplan

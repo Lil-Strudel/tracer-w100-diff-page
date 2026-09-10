@@ -1,0 +1,24 @@
+{
+  "name": "webapp",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.0",
+    "typescript": "catalog:",
+    "vite": "^7.1.4",
+    "vite-plugin-solid": "^2.11.8",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "solid-js": "^1.9.5",
+    "tailwindcss": "^4.1.13"
+  }
+}

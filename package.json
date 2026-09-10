@@ -1,0 +1,17 @@
+{
+  "name": "tracer-w100-diff-page",
+  "private": true,
+  "engines": {
+    "node": ">=22.17",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev": "pnpm --filter webapp dev",
+    "build": "pnpm --filter webapp build",
+    "test": "pnpm --filter webapp test",
+    "tf:init": "pnpm --filter infrastructure init",
+    "tf:plan": "pnpm --filter infrastructure plan",
+    "tf:apply": "pnpm --filter infrastructure apply"
+  },
+  "license": "MIT"
+}

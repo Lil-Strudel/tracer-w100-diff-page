@@ -1,0 +1,18 @@
+[
+  { "AidStationID": 1,  "AidStationName": "Start",                  "Distance": 0,    "Manned": false, "CutoffTime": 129600 },
+  { "AidStationID": 2,  "AidStationName": "Bountiful B",            "Distance": 16.6, "Manned": true,  "CutoffTime": 25200 },
+  { "AidStationID": 3,  "AidStationName": "Sessions Liftoff",       "Distance": 20.9, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 4,  "AidStationName": "Big Mountain Pass",      "Distance": 31.9, "Manned": true,  "CutoffTime": 43200 },
+  { "AidStationID": 5,  "AidStationName": "Alexander",              "Distance": 40.7, "Manned": true,  "CutoffTime": 55800 },
+  { "AidStationID": 6,  "AidStationName": "Lamb's Underpass",       "Distance": 47.5, "Manned": true,  "CutoffTime": 64800 },
+  { "AidStationID": 7,  "AidStationName": "Big Water",              "Distance": 52.9, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 8,  "AidStationName": "Desolation Lake",        "Distance": 61.3, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 9,  "AidStationName": "Scott's Peak",           "Distance": 65.3, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 10, "AidStationName": "Brighton Lodge",         "Distance": 69.3, "Manned": true,  "CutoffTime": 95400 },
+  { "AidStationID": 11, "AidStationName": "Ant Knolls",             "Distance": 74.1, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 12, "AidStationName": "Pole Line Pass",         "Distance": 77.2, "Manned": true,  "CutoffTime": 107100 },
+  { "AidStationID": 13, "AidStationName": "Rock Springs",           "Distance": 81.2, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 14, "AidStationName": "Little Deer Creek",      "Distance": 88.3, "Manned": true,  "CutoffTime": 120600 },
+  { "AidStationID": 15, "AidStationName": "Decker Canyon",          "Distance": 94.8, "Manned": true,  "CutoffTime": 129600 },
+  { "AidStationID": 16, "AidStationName": "Finish / Soldier Hollow", "Distance": 100, "Manned": false, "CutoffTime": 129600 }
+]
