@@ -13,11 +13,22 @@ describe("race-local time formatting", () => {
   });
 
   it("renders midnight as 00, not 24", () => {
-    expect(formatRaceTime("2026-09-11T06:00:00.000Z")).toBe("00:00:00");
+    expect(formatRaceTime("2026-09-11T06:00:00.000Z")).toBe("00:00");
+  });
+
+  it("drops the seconds when a time lands on the minute", () => {
+    expect(formatRaceTime("2026-09-11T18:07:00.000Z")).toBe("12:07");
+  });
+
+  it("keeps the seconds when they carry information", () => {
+    expect(formatRaceTime("2026-09-11T18:07:01.000Z")).toBe("12:07:01");
+    // Zero seconds only -- a zero minute is not a reason to trim.
+    expect(formatRaceTime("2026-09-11T18:00:33.000Z")).toBe("12:00:33");
   });
 
   it("includes the weekday when asked, for a race that runs past midnight", () => {
-    expect(formatRaceTimeWithDay("2026-09-12T04:30:00.000Z")).toMatch(/^Fri,? 22:30:00$/);
+    expect(formatRaceTimeWithDay("2026-09-12T04:30:00.000Z")).toMatch(/^Fri,? 22:30$/);
+    expect(formatRaceTimeWithDay("2026-09-12T04:30:15.000Z")).toMatch(/^Fri,? 22:30:15$/);
   });
 
   it("returns null for absent or unparseable input", () => {

@@ -2,7 +2,9 @@ import {
   type Component,
   createSignal,
   createMemo,
+  createEffect,
   onMount,
+  onCleanup,
   For,
   Show,
   batch,
@@ -13,6 +15,7 @@ import { W100API, type W100Status, type W100RunnerTimes } from "../lib/w100";
 import { mapStations, type MappedStation } from "../lib/stations";
 import { diffStation, type MissingTime } from "../lib/diff";
 import { formatRaceTime, weekday } from "../lib/time";
+import { copyText } from "../lib/clipboard";
 import {
   loadDismissed,
   saveDismissed,
@@ -40,6 +43,18 @@ const NeedsEntry: Component = () => {
   const [showDone, setShowDone] = createSignal(false);
 
   const station = createMemo(() => mapped().find((s) => s.w100Id === selectedId()) ?? null);
+
+  // The <option> elements are rebuilt every time `mapped` changes, and a fresh
+  // option list leaves the <select> showing its first entry (START) no matter
+  // what `selectedId` says -- the value binding is a render effect that has
+  // already run by then. Re-assert the selection after the options exist.
+  let stationSelect: HTMLSelectElement | undefined;
+  createEffect(() => {
+    const id = selectedId();
+    const options = mapped();
+    if (!stationSelect || id === null) return;
+    if (options.some((s) => s.w100Id === id)) stationSelect.value = String(id);
+  });
 
   const result = createMemo(() => {
     const snap = snapshot();
@@ -104,6 +119,9 @@ const NeedsEntry: Component = () => {
       });
 
       if (resolved !== null) {
+        // Persist the resolved station too, not just dropdown picks, so a
+        // reload returns to the station the volunteer was actually looking at.
+        saveRememberedStation(resolved);
         if (opts.clearDismissals) {
           clearDismissed(resolved);
           setDismissed(new Set<string>());
@@ -179,6 +197,7 @@ const NeedsEntry: Component = () => {
             Your aid station
           </span>
           <select
+            ref={stationSelect}
             class="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-base font-medium shadow-sm dark:border-slate-700 dark:bg-slate-900"
             value={selectedId() ?? ""}
             onChange={(e) => void onSelect(Number(e.currentTarget.value))}
@@ -309,37 +328,107 @@ function stationLabel(s: MappedStation): string {
   return s.w100Name && !same ? `${s.tracerName} — ${s.w100Name}` : s.tracerName;
 }
 
-const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> = (props) => (
-  <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-    <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">{props.item.bib}</div>
-    <div class="min-w-0 flex-1">
-      <div class="flex items-center gap-2">
-        <span
-          class={`rounded px-1.5 py-0.5 text-xs font-bold uppercase tracking-wide ${
-            props.item.kind === "in"
-              ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
-              : "bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-100"
-          }`}
-        >
-          {props.item.kind}
-        </span>
-        <span class="text-xl font-semibold tabular-nums">{formatRaceTime(props.item.iso)}</span>
-        <span class="text-xs font-medium uppercase text-slate-400 dark:text-slate-500">
-          {weekday(props.item.iso)}
-        </span>
+const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> = (props) => {
+  const time = createMemo(() => formatRaceTime(props.item.iso) ?? "");
+  // "idle" | "copied" | "failed" -- reverts on a timer so the button never
+  // sits there claiming a copy that happened a quarter of an hour ago.
+  const [copyState, setCopyState] = createSignal<"idle" | "copied" | "failed">("idle");
+  let revert: ReturnType<typeof setTimeout> | undefined;
+
+  async function copy() {
+    const ok = await copyText(time());
+    setCopyState(ok ? "copied" : "failed");
+    clearTimeout(revert);
+    revert = setTimeout(() => setCopyState("idle"), 1800);
+  }
+
+  onCleanup(() => clearTimeout(revert));
+
+  return (
+    <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">{props.item.bib}</div>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          <span
+            class={`w-9 shrink-0 rounded py-0.5 text-center text-xs font-bold uppercase tracking-wide ${
+              props.item.kind === "in"
+                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
+                : "bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-100"
+            }`}
+          >
+            {props.item.kind}
+          </span>
+          {/* Right-aligned against the fixed-width copy button, so times line
+              up down the list whether or not they carry seconds. */}
+          <span class="min-w-[7ch] flex-1 text-right text-xl font-semibold tabular-nums">
+            {time()}
+          </span>
+          <button
+            type="button"
+            class="shrink-0 rounded-lg border border-slate-300 p-2 active:scale-[0.98] disabled:opacity-40 dark:border-slate-700"
+            disabled={!time()}
+            title={`Copy ${time()}`}
+            aria-label={`Copy ${time()}`}
+            onClick={() => void copy()}
+          >
+            <CopyIcon state={copyState()} />
+            <span class="sr-only" aria-live="polite">
+              {copyState() === "copied" ? "Copied" : copyState() === "failed" ? "Copy failed" : ""}
+            </span>
+          </button>
+        </div>
+        <div class="truncate text-sm text-slate-500 dark:text-slate-400">
+          <Show when={weekday(props.item.iso)}>
+            {(day) => (
+              <span class="font-medium uppercase text-slate-400 dark:text-slate-500">
+                {day()}
+                {" · "}
+              </span>
+            )}
+          </Show>
+          {props.item.runnerName ?? "Unknown runner"}
+        </div>
       </div>
-      <div class="truncate text-sm text-slate-500 dark:text-slate-400">
-        {props.item.runnerName ?? "Unknown runner"}
-      </div>
-    </div>
-    <button
-      type="button"
-      class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] dark:border-slate-700"
-      onClick={() => props.onDone()}
+      <button
+        type="button"
+        class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] dark:border-slate-700"
+        onClick={() => props.onDone()}
+      >
+        {props.done ? "Undo" : "Mark done"}
+      </button>
+    </li>
+  );
+};
+
+const CopyIcon: Component<{ state: "idle" | "copied" | "failed" }> = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class={`size-5 ${
+      props.state === "copied"
+        ? "text-emerald-600 dark:text-emerald-400"
+        : props.state === "failed"
+          ? "text-red-600 dark:text-red-400"
+          : "text-slate-500 dark:text-slate-400"
+    }`}
+    aria-hidden="true"
+  >
+    <Show
+      when={props.state === "copied"}
+      fallback={
+        <>
+          <rect x="9" y="9" width="11" height="11" rx="2" />
+          <path d="M5 15V5a2 2 0 0 1 2-2h8" />
+        </>
+      }
     >
-      {props.done ? "Undo" : "Mark done"}
-    </button>
-  </li>
+      <path d="M20 6 9 17l-5-5" />
+    </Show>
+  </svg>
 );
 
 const Banner: Component<{

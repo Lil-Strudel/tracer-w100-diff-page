@@ -30,13 +30,21 @@ const withDay = new Intl.DateTimeFormat("en-US", {
   hour12: false,
 });
 
-/** "14:07:33" in race-local time, or null for an unparseable input. */
+/**
+ * Volunteers read these off a phone, so the seconds only earn their place when
+ * they carry information: a time recorded on the minute renders as "14:07".
+ */
+function dropZeroSeconds(formatted: string): string {
+  return formatted.replace(/:00$/, "");
+}
+
+/** "14:07:33", or "14:07" on the minute; null for an unparseable input. */
 export function formatRaceTime(iso: string | null | undefined): string | null {
   if (!iso) return null;
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return null;
   // en-US with hour12:false renders midnight as "24", which reads as a bug.
-  return hhmmss.format(date).replace(/^24:/, "00:");
+  return dropZeroSeconds(hhmmss.format(date).replace(/^24:/, "00:"));
 }
 
 /** "Fri 14:07:33" -- used where the day matters, e.g. a 36-hour race. */
@@ -44,7 +52,7 @@ export function formatRaceTimeWithDay(iso: string | null | undefined): string | 
   if (!iso) return null;
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return null;
-  return withDay.format(date).replace(/(\s)24:/, "$100:");
+  return dropZeroSeconds(withDay.format(date).replace(/(\s)24:/, "$100:"));
 }
 
 /** "Fri" -- the race runs past midnight, so the day disambiguates a time. */
