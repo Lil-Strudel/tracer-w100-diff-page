@@ -348,9 +348,9 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
     <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">{props.item.bib}</div>
       <div class="min-w-0 flex-1">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <span
-            class={`w-9 shrink-0 rounded py-0.5 text-center text-xs font-bold uppercase tracking-wide ${
+            class={`w-8 shrink-0 rounded py-0.5 text-center text-xs font-bold uppercase tracking-wide ${
               props.item.kind === "in"
                 ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
                 : "bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-100"
@@ -358,14 +358,14 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
           >
             {props.item.kind}
           </span>
-          {/* Right-aligned against the fixed-width copy button, so times line
-              up down the list whether or not they carry seconds. */}
-          <span class="min-w-[7ch] flex-1 text-right text-xl font-semibold tabular-nums">
-            {time()}
-          </span>
+          {/* A fixed-width column, not a right-aligned one: left-aligned with
+              tabular figures, HH:MM lines up with the HH:MM of a neighbouring
+              HH:MM:SS and the seconds simply trail off the end. The width is
+              what keeps the copy button in a straight line down the list. */}
+          <span class="min-w-[7.5ch] text-xl font-semibold tabular-nums">{time()}</span>
           <button
             type="button"
-            class="shrink-0 rounded-lg border border-slate-300 p-2 active:scale-[0.98] disabled:opacity-40 dark:border-slate-700"
+            class="-my-1 shrink-0 rounded-lg p-1.5 text-slate-500 active:bg-slate-100 disabled:opacity-40 dark:text-slate-400 dark:active:bg-slate-800"
             disabled={!time()}
             title={`Copy ${time()}`}
             aria-label={`Copy ${time()}`}
@@ -389,12 +389,14 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
           {props.item.runnerName ?? "Unknown runner"}
         </div>
       </div>
+      {/* "Done", not "Mark done": the longer label ate ~45px of a 390px row,
+          which is what pushed the copy button into it. */}
       <button
         type="button"
         class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] dark:border-slate-700"
         onClick={() => props.onDone()}
       >
-        {props.done ? "Undo" : "Mark done"}
+        {props.done ? "Undo" : "Done"}
       </button>
     </li>
   );
