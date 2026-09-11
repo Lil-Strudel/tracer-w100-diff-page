@@ -89,6 +89,11 @@ export function diffStation({
     }
   }
 
-  missing.sort((a, b) => (a.bib === b.bib ? a.kind.localeCompare(b.kind) : a.bib - b.bib));
+  // Bib ascending, and within a bib the arrival before the departure -- that
+  // is the order a volunteer reads their own paper log in. Ranked explicitly
+  // rather than by comparing the strings: "in" < "out" alphabetically is a
+  // coincidence, and a third kind would silently land wherever its name fell.
+  const kindRank: Record<TimeKind, number> = { in: 0, out: 1 };
+  missing.sort((a, b) => (a.bib === b.bib ? kindRank[a.kind] - kindRank[b.kind] : a.bib - b.bib));
   return { missing, degraded, tracerTimeCount };
 }
