@@ -54,6 +54,7 @@ const NeedsEntry: Component = () => {
   const [dismissed, setDismissed] = createSignal<Set<string>>(new Set());
   const [lastUndone, setLastUndone] = createSignal<string | null>(null);
   const [showDone, setShowDone] = createSignal(false);
+  const [showEntered, setShowEntered] = createSignal(false);
   const [checks, setChecks] = createSignal<Record<string, Check>>({});
 
   const station = createMemo(() => mapped().find((s) => s.w100Id === selectedId()) ?? null);
@@ -86,7 +87,17 @@ const NeedsEntry: Component = () => {
 
   const toEnter = createMemo(() => (result()?.toEnter ?? []).filter((m) => !dismissed().has(m.key)));
   const hidden = createMemo(() => (result()?.toEnter ?? []).filter((m) => dismissed().has(m.key)));
+  // A runner whose out-time Check has already confirmed is not work any more,
+  // just a row that has not disappeared yet -- it only leaves the tab once
+  // W100 has the in-time. Splitting the two is the difference between a list
+  // of eighteen and a list of the three that still need chasing.
   const missingIn = createMemo(() => result()?.missingIn ?? []);
+  const verdictOf = (item: StationRow) => {
+    const c = checks()[item.key];
+    return c?.state === "done" ? c.verdict : "action";
+  };
+  const missingInAction = createMemo(() => missingIn().filter((m) => verdictOf(m) === "action"));
+  const missingInEntered = createMemo(() => missingIn().filter((m) => verdictOf(m) === "entered"));
   const misaligned = createMemo(() => result()?.misaligned ?? []);
 
   /** Fetches W100 times for one station. Never throws -- failure means degraded. */
@@ -116,6 +127,7 @@ const NeedsEntry: Component = () => {
       setDismissed(new Set<string>());
       setLastUndone(null);
       setShowDone(false);
+      setShowEntered(false);
     });
   }
 
@@ -221,13 +233,18 @@ const NeedsEntry: Component = () => {
     setChecks({ ...checks(), [item.key]: { state: "checking" } });
 
     /** A verdict from W100 is worth keeping; a failed request is not. */
-    const settle = (tone: "good" | "warn", message: string, keep = true) => {
-      const next = { ...checks(), [item.key]: { state: "done" as const, tone, message, at: new Date().toISOString() } };
+    const settle = (result: Omit<StoredCheck, "at">, keep = true) => {
+      const next = {
+        ...checks(),
+        [item.key]: { state: "done" as const, ...result, at: new Date().toISOString() },
+      };
       setChecks(next);
       if (!keep) return;
       const stored: Record<string, StoredCheck> = {};
       for (const [key, value] of Object.entries(next)) {
-        if (value.state === "done") stored[key] = { tone: value.tone, message: value.message, at: value.at };
+        if (value.state === "done") {
+          stored[key] = { verdict: value.verdict, tone: value.tone, message: value.message, at: value.at };
+        }
       }
       saveChecks(id, stored);
     };
@@ -238,17 +255,34 @@ const NeedsEntry: Component = () => {
       const w100In = times?.in ?? null;
 
       if (w100Out === null) {
-        settle("warn", w100In === null ? "Not entered yet" : "In time is in — press Refresh");
+        settle({
+          verdict: "action",
+          tone: "warn",
+          message: w100In === null ? "Not entered yet" : "In time is in — press Refresh",
+        });
         return;
       }
       const shown = formatElapsed(w100Out, raceStartMs());
+      // An out-time that disagrees with Tracer is still work, even though W100
+      // does hold one -- somebody has to decide which of the two is the typo.
       if (item.tracerElapsed !== null && w100Out !== item.tracerElapsed) {
-        settle("warn", `W100 has ${shown ?? "a different time"}, Tracer has ${formatRaceTime(item.iso)}`);
+        settle({
+          verdict: "action",
+          tone: "warn",
+          message: `W100 has ${shown ?? "a different time"}, Tracer has ${formatRaceTime(item.iso)}`,
+        });
         return;
       }
-      settle("good", shown ? `Already entered (${shown})` : "Already entered");
+      settle({
+        verdict: "entered",
+        tone: "good",
+        message: shown ? `Already entered (${shown})` : "Already entered",
+      });
     } catch (err) {
-      settle("warn", err instanceof Error ? err.message : String(err), false);
+      settle(
+        { verdict: "action", tone: "warn", message: err instanceof Error ? err.message : String(err) },
+        false,
+      );
     }
   }
 
@@ -256,6 +290,23 @@ const NeedsEntry: Component = () => {
   // that is not literally "race" put a "this comparison is not meaningful"
   // banner above the queue for the whole event.
   const LIVE_MODES = new Set(["race", "production"]);
+  const MissingInRow: Component<{ item: StationRow }> = (rowProps) => (
+    <Row
+      item={rowProps.item}
+      note={checks()[rowProps.item.key]}
+      trailing={
+        <button
+          type="button"
+          class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] disabled:opacity-50 dark:border-slate-700"
+          disabled={checks()[rowProps.item.key]?.state === "checking"}
+          onClick={() => void check(rowProps.item)}
+        >
+          {checkLabel(checks()[rowProps.item.key])}
+        </button>
+      }
+    />
+  );
+
   const testMode = createMemo(() => {
     const s = status();
     return s ? !LIVE_MODES.has(s.OperatingMode.toLowerCase().trim()) : false;
@@ -348,7 +399,7 @@ const NeedsEntry: Component = () => {
           />
           <TabButton
             active={tab() === "missingIn"}
-            count={missingIn().length}
+            count={missingInAction().length}
             label="Missing in"
             onSelect={() => setTab("missingIn")}
           />
@@ -407,30 +458,38 @@ const NeedsEntry: Component = () => {
 
         <Show when={tab() === "missingIn"}>
           <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
-            Tracer has a departure, W100 has no arrival for the runner. W100 will not show us their
-            out time until the in time lands, so Check asks about the one runner.
+            Tracer has a departure, W100 has no arrival for the runner. W100 will not show us
+            their out time until the in time lands, so Check asks about the one runner — anything
+            it confirms drops into the group below.
           </p>
           <List
-            items={missingIn()}
+            items={missingInAction()}
             loading={loading()}
-            empty="Every runner here has an in time in W100."
-            render={(item) => (
-              <Row
-                item={item}
-                note={checks()[item.key]}
-                trailing={
-                  <button
-                    type="button"
-                    class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] disabled:opacity-50 dark:border-slate-700"
-                    disabled={checks()[item.key]?.state === "checking"}
-                    onClick={() => void check(item)}
-                  >
-                    {checkLabel(checks()[item.key])}
-                  </button>
-                }
-              />
-            )}
+            empty={
+              missingInEntered().length > 0
+                ? "Every runner here has their out time in W100 already."
+                : "Every runner here has an in time in W100."
+            }
+            render={(item) => <MissingInRow item={item} />}
           />
+
+          <Show when={missingInEntered().length > 0}>
+            <section class="mt-8">
+              <button
+                type="button"
+                class="flex w-full items-center justify-between rounded-lg px-1 py-2 text-left text-sm font-medium text-slate-600 dark:text-slate-400"
+                onClick={() => setShowEntered(!showEntered())}
+              >
+                <span>Out time already in W100 ({missingInEntered().length})</span>
+                <span aria-hidden="true">{showEntered() ? "▲" : "▼"}</span>
+              </button>
+              <Show when={showEntered()}>
+                <ul class="space-y-2 opacity-70">
+                  <For each={missingInEntered()}>{(item) => <MissingInRow item={item} />}</For>
+                </ul>
+              </Show>
+            </section>
+          </Show>
         </Show>
 
         <Show when={tab() === "misaligned"}>
@@ -586,13 +645,19 @@ const Row: Component<{
       {/* The whole bib is the button rather than an icon beside it: the row
           already fights for width at 390px, and a 3xl numeral is a far better
           tap target than anything that would fit next to it. The hover chip is
-          the only affordance it needs; the numeral going green is the receipt. */}
+          the only affordance it needs; the numeral going green is the receipt.
+
+          It copies the padded "001", exactly what is on screen: these get
+          pasted into net control's runner lookup, which takes it. W100's own
+          API does not -- /runner/001/times answers 400 "The runner's number is
+          invalid" -- so anything built on that endpoint has to strip the
+          padding rather than reuse this string. */}
       <button
         type="button"
         class="-my-1 w-16 shrink-0 cursor-pointer rounded-lg py-1 text-left hover:bg-slate-100 active:bg-slate-100 dark:hover:bg-slate-800 dark:active:bg-slate-800"
-        title={`Copy bib ${props.item.bib}`}
-        aria-label={`Copy bib ${props.item.bib}`}
-        onClick={() => void bibCopy.copy(String(props.item.bib))}
+        title={`Copy bib ${formatBib(props.item.bib)}`}
+        aria-label={`Copy bib ${formatBib(props.item.bib)}`}
+        onClick={() => void bibCopy.copy(formatBib(props.item.bib))}
       >
         <span
           class={`block text-3xl font-bold tabular-nums leading-none ${

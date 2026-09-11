@@ -32,6 +32,7 @@ afterEach(() => {
 });
 
 const check = (over: Partial<StoredCheck> = {}): StoredCheck => ({
+  verdict: "entered",
   tone: "good",
   message: "Already entered (14:05)",
   at: "2026-09-11T22:44:00.000Z",
@@ -91,6 +92,29 @@ describe("stored check results", () => {
     fakeStorage({
       "w100diff:checks:v1:4": JSON.stringify({ "153-out": { tone: "warn", message: "Not entered yet" } }),
     });
-    expect(loadChecks(4)["153-out"]).toEqual({ tone: "warn", message: "Not entered yet", at: "" });
+    expect(loadChecks(4)["153-out"]).toMatchObject({ message: "Not entered yet", at: "" });
+  });
+
+  it("reads a verdict off the tone for results stored before verdicts existed", () => {
+    // Volunteers already had results in localStorage when grouping shipped;
+    // re-checking eighteen runners to regain them would defeat the point.
+    fakeStorage({
+      "w100diff:checks:v1:4": JSON.stringify({
+        "153-out": { tone: "good", message: "Already entered (14:05)", at: "" },
+        "36-out": { tone: "warn", message: "Not entered yet", at: "" },
+      }),
+    });
+    const restored = loadChecks(4);
+    expect(restored["153-out"].verdict).toBe("entered");
+    expect(restored["36-out"].verdict).toBe("action");
+  });
+
+  it("prefers a stored verdict over the tone when both are present", () => {
+    fakeStorage({
+      "w100diff:checks:v1:4": JSON.stringify({
+        "153-out": { verdict: "action", tone: "good", message: "hmm", at: "" },
+      }),
+    });
+    expect(loadChecks(4)["153-out"].verdict).toBe("action");
   });
 });

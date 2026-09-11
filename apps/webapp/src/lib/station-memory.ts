@@ -49,6 +49,12 @@ export function saveRememberedStation(w100StationId: number): void {
 
 /** A settled Check result, as stored. `at` is when W100 was asked. */
 export interface StoredCheck {
+  /**
+   * Whether anyone still has to do something about this runner. Held
+   * separately from `tone` so the grouping does not quietly depend on a colour
+   * choice: a future verdict could be green and still be work.
+   */
+  verdict: "entered" | "action";
   tone: "good" | "warn";
   message: string;
   at: string;
@@ -68,7 +74,14 @@ export function loadChecks(w100StationId: number): Record<string, StoredCheck> {
       // Anything hand-edited or written by an older build is dropped rather
       // than rendered: a malformed note is worse than no note.
       if ((v?.tone === "good" || v?.tone === "warn") && typeof v.message === "string") {
-        out[key] = { tone: v.tone, message: v.message, at: typeof v.at === "string" ? v.at : "" };
+        out[key] = {
+          // Results written before verdicts existed are read back off the tone,
+          // which was one-to-one with it -- so an upgrade costs no re-checks.
+          verdict: v.verdict === "entered" || v.verdict === "action" ? v.verdict : v.tone === "good" ? "entered" : "action",
+          tone: v.tone,
+          message: v.message,
+          at: typeof v.at === "string" ? v.at : "",
+        };
       }
     }
     return out;
