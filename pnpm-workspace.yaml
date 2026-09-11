@@ -1,12 +1,9 @@
 packages:
   - apps/*
 
+# vite/vitest need esbuild's native binary, so its install script must run.
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
 
 catalog:
   typescript: ^5.9.2
-
-# vite/vitest need esbuild's native binary, so its install script must run.
-onlyBuiltDependencies:
-  - esbuild
