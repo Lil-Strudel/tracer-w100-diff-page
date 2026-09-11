@@ -1,13 +1,19 @@
-// The one piece of state that outlives a page load: which aid station you are
-// standing at.
+// What outlives a page load: the aid station you are standing at, and the
+// answers W100 gave to the per-runner Check button.
 //
-// Nothing else is persisted, and that is deliberate. "Mark done" used to be
-// stored per station in localStorage, which meant two volunteers entering
-// times from two phones each saw their own idea of what was finished and
-// neither saw the other's. A reload now starts from what Tracer and W100
-// actually say, which is the only thing both devices agree on.
+// "Mark done" is pointedly NOT here. It used to be, and it meant two
+// volunteers entering times from two phones each saw their own idea of what
+// was finished and neither saw the other's. A reload starts that from what
+// Tracer and W100 actually say, which is the only thing both devices agree on.
+//
+// A check result is a different kind of thing: not one volunteer's opinion but
+// a fact W100 reported, and re-fetching it a bib at a time after every reload
+// is exactly the work the button exists to avoid. It is kept per station and
+// stamped with when it was taken, because it can go stale -- pressing Check
+// again overwrites it.
 
 const STATION_KEY = "w100diff:station:v1";
+const CHECKS_PREFIX = "w100diff:checks:v1:";
 
 function storage(): Storage | null {
   try {
@@ -38,5 +44,48 @@ export function saveRememberedStation(w100StationId: number): void {
     store.setItem(STATION_KEY, String(w100StationId));
   } catch {
     /* ignore */
+  }
+}
+
+/** A settled Check result, as stored. `at` is when W100 was asked. */
+export interface StoredCheck {
+  tone: "good" | "warn";
+  message: string;
+  at: string;
+}
+
+export function loadChecks(w100StationId: number): Record<string, StoredCheck> {
+  const store = storage();
+  if (!store) return {};
+  try {
+    const raw = store.getItem(CHECKS_PREFIX + w100StationId);
+    if (!raw) return {};
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const out: Record<string, StoredCheck> = {};
+    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+      const v = value as Partial<StoredCheck>;
+      // Anything hand-edited or written by an older build is dropped rather
+      // than rendered: a malformed note is worse than no note.
+      if ((v?.tone === "good" || v?.tone === "warn") && typeof v.message === "string") {
+        out[key] = { tone: v.tone, message: v.message, at: typeof v.at === "string" ? v.at : "" };
+      }
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export function saveChecks(
+  w100StationId: number,
+  checks: Record<string, StoredCheck>,
+): void {
+  const store = storage();
+  if (!store) return;
+  try {
+    store.setItem(CHECKS_PREFIX + w100StationId, JSON.stringify(checks));
+  } catch {
+    // Quota or a locked-down browser -- results degrade to in-memory only.
   }
 }

@@ -18,7 +18,13 @@ import { diffStation, type StationRow } from "../lib/diff";
 import { formatRaceTime, formatElapsed, parseRaceStart, weekday } from "../lib/time";
 import { formatBib } from "../lib/bib";
 import { copyText } from "../lib/clipboard";
-import { loadRememberedStation, saveRememberedStation } from "../lib/station-memory";
+import {
+  loadChecks,
+  loadRememberedStation,
+  saveChecks,
+  saveRememberedStation,
+  type StoredCheck,
+} from "../lib/station-memory";
 
 const tracer = new TracerAPI();
 const w100 = new W100API();
@@ -26,9 +32,7 @@ const w100 = new W100API();
 type Tab = "enter" | "missingIn" | "misaligned";
 
 /** Result of pressing Check on one "missing in time" row. */
-type Check =
-  | { state: "checking" }
-  | { state: "done"; tone: "good" | "warn"; message: string };
+type Check = { state: "checking" } | ({ state: "done" } & StoredCheck);
 
 const NeedsEntry: Component = () => {
   const [snapshot, setSnapshot] = createSignal<TracerSnapshot | null>(null);
@@ -43,9 +47,10 @@ const NeedsEntry: Component = () => {
   const [updatedAt, setUpdatedAt] = createSignal<string | null>(null);
   const [tab, setTab] = createSignal<Tab>("enter");
 
-  // Everything below is session-only. None of it is written to localStorage:
-  // volunteers work the same station from several phones, and a reload has to
-  // put all of them back on what Tracer and W100 actually say.
+  // Dismissals are session-only on purpose: volunteers work one station from
+  // several phones, and a reload has to put all of them back on what Tracer
+  // and W100 actually say. Check results are the exception -- they are W100's
+  // answers, not this device's opinion -- and are restored per station below.
   const [dismissed, setDismissed] = createSignal<Set<string>>(new Set());
   const [lastUndone, setLastUndone] = createSignal<string | null>(null);
   const [showDone, setShowDone] = createSignal(false);
@@ -105,14 +110,23 @@ const NeedsEntry: Component = () => {
     }
   }
 
-  /** Drops every per-row judgement, so the lists come back from the two APIs. */
+  /** Drops this device's own judgements, so the lists come back from the APIs. */
   function resetLocalState() {
     batch(() => {
       setDismissed(new Set<string>());
       setLastUndone(null);
       setShowDone(false);
-      setChecks({});
     });
+  }
+
+  /** Replays the Check answers already collected for a station. */
+  function restoreChecks(w100StationId: number) {
+    const stored = loadChecks(w100StationId);
+    setChecks(
+      Object.fromEntries(
+        Object.entries(stored).map(([key, v]) => [key, { state: "done", ...v } as Check]),
+      ),
+    );
   }
 
   async function loadAll() {
@@ -146,6 +160,7 @@ const NeedsEntry: Component = () => {
         // Persist the resolved station too, not just dropdown picks, so a
         // reload returns to the station the volunteer was actually looking at.
         saveRememberedStation(resolved);
+        restoreChecks(resolved);
         const st = stations.find((s) => s.w100Id === resolved);
         if (st) await loadW100Times(st);
       }
@@ -169,6 +184,7 @@ const NeedsEntry: Component = () => {
       setLoading(true);
     });
     saveRememberedStation(id);
+    restoreChecks(id);
     await loadW100Times(st);
     batch(() => {
       setUpdatedAt(new Date().toISOString());
@@ -203,8 +219,18 @@ const NeedsEntry: Component = () => {
     const id = selectedId();
     if (id === null) return;
     setChecks({ ...checks(), [item.key]: { state: "checking" } });
-    const settle = (tone: "good" | "warn", message: string) =>
-      setChecks({ ...checks(), [item.key]: { state: "done", tone, message } });
+
+    /** A verdict from W100 is worth keeping; a failed request is not. */
+    const settle = (tone: "good" | "warn", message: string, keep = true) => {
+      const next = { ...checks(), [item.key]: { state: "done" as const, tone, message, at: new Date().toISOString() } };
+      setChecks(next);
+      if (!keep) return;
+      const stored: Record<string, StoredCheck> = {};
+      for (const [key, value] of Object.entries(next)) {
+        if (value.state === "done") stored[key] = { tone: value.tone, message: value.message, at: value.at };
+      }
+      saveChecks(id, stored);
+    };
 
     try {
       const times = stationTimesFor(await w100.getRunnerTimes(item.bib), id);
@@ -222,7 +248,7 @@ const NeedsEntry: Component = () => {
       }
       settle("good", shown ? `Already entered (${shown})` : "Already entered");
     } catch (err) {
-      settle("warn", err instanceof Error ? err.message : String(err));
+      settle("warn", err instanceof Error ? err.message : String(err), false);
     }
   }
 
@@ -399,7 +425,7 @@ const NeedsEntry: Component = () => {
                     disabled={checks()[item.key]?.state === "checking"}
                     onClick={() => void check(item)}
                   >
-                    {checks()[item.key]?.state === "checking" ? "…" : "Check"}
+                    {checkLabel(checks()[item.key])}
                   </button>
                 }
               />
@@ -447,6 +473,12 @@ function stationLabel(s: MappedStation): string {
   const same =
     s.w100Name && s.w100Name.toLowerCase().trim() === s.tracerName.toLowerCase().trim();
   return s.w100Name && !same ? `${s.tracerName} — ${s.w100Name}` : s.tracerName;
+}
+
+/** A result already on screen may be hours old, so offer to take it again. */
+function checkLabel(check: Check | undefined): string {
+  if (check?.state === "checking") return "…";
+  return check?.state === "done" ? "Recheck" : "Check";
 }
 
 /** "153-out" is a storage key, not something to show a volunteer at 2am. */
@@ -597,6 +629,16 @@ const Row: Component<{
               aria-live="polite"
             >
               {note().message}
+              {/* Stamped because a restored answer can be hours stale, and the
+                  row gives no other clue that it was not just fetched. */}
+              <Show when={formatRaceTime(note().at)}>
+                {(at) => (
+                  <span class="font-normal text-slate-500 dark:text-slate-400">
+                    {" · checked "}
+                    <span class="tabular-nums">{at()}</span>
+                  </span>
+                )}
+              </Show>
             </div>
           )}
         </Show>
