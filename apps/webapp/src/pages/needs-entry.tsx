@@ -585,23 +585,26 @@ const Row: Component<{
     <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       {/* The whole bib is the button rather than an icon beside it: the row
           already fights for width at 390px, and a 3xl numeral is a far better
-          tap target than anything that would fit next to it. */}
+          tap target than anything that would fit next to it. The hover chip is
+          the only affordance it needs; the numeral going green is the receipt. */}
       <button
         type="button"
-        class="-my-1 w-16 shrink-0 rounded-lg py-1 text-left active:bg-slate-100 dark:active:bg-slate-800"
+        class="-my-1 w-16 shrink-0 cursor-pointer rounded-lg py-1 text-left hover:bg-slate-100 active:bg-slate-100 dark:hover:bg-slate-800 dark:active:bg-slate-800"
         title={`Copy bib ${props.item.bib}`}
         aria-label={`Copy bib ${props.item.bib}`}
         onClick={() => void bibCopy.copy(String(props.item.bib))}
       >
         <span
           class={`block text-3xl font-bold tabular-nums leading-none ${
-            bibCopy.state() === "copied" ? "text-emerald-600 dark:text-emerald-400" : ""
+            bibCopy.state() === "copied"
+              ? "text-emerald-600 dark:text-emerald-400"
+              : bibCopy.state() === "failed"
+                ? "text-red-600 dark:text-red-400"
+                : ""
           }`}
         >
           {formatBib(props.item.bib)}
         </span>
-        {/* Without this a bare numeral gives no hint that it is tappable. */}
-        <CopyIcon state={bibCopy.state()} class="mt-1 size-3.5" />
         <CopyStatus state={bibCopy.state()} />
       </button>
       <div class="min-w-0 flex-1">
@@ -680,7 +683,7 @@ const Row: Component<{
   );
 };
 
-const CopyIcon: Component<{ state: "idle" | "copied" | "failed"; class?: string }> = (props) => (
+const CopyIcon: Component<{ state: "idle" | "copied" | "failed" }> = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -688,7 +691,7 @@ const CopyIcon: Component<{ state: "idle" | "copied" | "failed"; class?: string 
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class={`${props.class ?? "size-5"} ${
+    class={`size-5 ${
       props.state === "copied"
         ? "text-emerald-600 dark:text-emerald-400"
         : props.state === "failed"
