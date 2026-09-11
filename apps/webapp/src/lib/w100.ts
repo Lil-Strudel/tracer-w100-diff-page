@@ -4,8 +4,11 @@
 // directly -- `/w100/<path>` is rewritten to https://w100as.web.app/api/<path>
 // by CloudFront in production and by the Vite dev proxy locally.
 //
-// Deliberately NOT exposed here: /runner, which returns runner email
-// addresses and phone numbers. Names come from Tracer's participants instead.
+// Deliberately NOT exposed here: /runner and /runner/{bib}, which return
+// runner email addresses and phone numbers. Names come from Tracer's
+// participants instead. /runner/{bib}/times is a different thing -- times
+// only, no contact details -- and is used, one bib at a time, to see out-times
+// that /aid-station/{id}/times hides.
 
 import type { FetchLike } from "./tracer";
 
@@ -130,6 +133,29 @@ export class W100API {
       throw err;
     }
   }
+
+  /**
+   * One runner's times across every aid station.
+   *
+   * This is the only way to see an out-time that was entered before the
+   * matching in-time: /aid-station/{id}/times drops a runner entirely while
+   * their ElapsedTimeIn is -1, out-time and all. Called one bib at a time,
+   * on demand -- never fanned out across a start list.
+   *
+   * Note the path: /runner/{bib}/times returns times only. Its parent,
+   * /runner/{bib}, returns the runner's email address and phone number and is
+   * deliberately never called.
+   */
+  async getRunnerTimes(bib: number): Promise<W100RunnerTimes[]> {
+    try {
+      const { data } = await this.request<W100RunnerTimes[]>(`/runner/${bib}/times`);
+      return data ?? [];
+    } catch (err) {
+      // A runner with nothing recorded anywhere answers 404, same as a station.
+      if (err instanceof W100Error && err.status === 404) return [];
+      throw err;
+    }
+  }
 }
 
 export function indexStationTimes(rows: W100RunnerTimes[]): W100StationTimes {
@@ -141,4 +167,20 @@ export function indexStationTimes(rows: W100RunnerTimes[]): W100StationTimes {
     });
   }
   return { byBib };
+}
+
+/**
+ * One station's times out of a per-runner response, with -1 normalized away.
+ * Returns null when the runner has no row for that station at all.
+ */
+export function stationTimesFor(
+  rows: W100RunnerTimes[],
+  aidStationId: number,
+): { in: number | null; out: number | null } | null {
+  const row = rows.find((r) => r.AidStationID === aidStationId);
+  if (!row) return null;
+  return {
+    in: row.ElapsedTimeIn === ELAPSED_NOT_ENTERED ? null : row.ElapsedTimeIn,
+    out: row.ElapsedTimeOut === ELAPSED_NOT_ENTERED ? null : row.ElapsedTimeOut,
+  };
 }

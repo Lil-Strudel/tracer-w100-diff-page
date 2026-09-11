@@ -1,5 +1,6 @@
 import {
   type Component,
+  type JSX,
   createSignal,
   createMemo,
   createEffect,
@@ -11,21 +12,23 @@ import {
 } from "solid-js";
 
 import { TracerAPI, type TracerSnapshot } from "../lib/tracer";
-import { W100API, type W100Status, type W100RunnerTimes } from "../lib/w100";
+import { W100API, type W100Status, type W100RunnerTimes, stationTimesFor } from "../lib/w100";
 import { mapStations, type MappedStation } from "../lib/stations";
-import { diffStation, type MissingTime } from "../lib/diff";
-import { formatRaceTime, weekday } from "../lib/time";
+import { diffStation, type StationRow } from "../lib/diff";
+import { formatRaceTime, formatElapsed, parseRaceStart, weekday } from "../lib/time";
+import { formatBib } from "../lib/bib";
 import { copyText } from "../lib/clipboard";
-import {
-  loadDismissed,
-  saveDismissed,
-  clearDismissed,
-  loadRememberedStation,
-  saveRememberedStation,
-} from "../lib/dismissed";
+import { loadRememberedStation, saveRememberedStation } from "../lib/station-memory";
 
 const tracer = new TracerAPI();
 const w100 = new W100API();
+
+type Tab = "enter" | "missingIn" | "misaligned";
+
+/** Result of pressing Check on one "missing in time" row. */
+type Check =
+  | { state: "checking" }
+  | { state: "done"; tone: "good" | "warn"; message: string };
 
 const NeedsEntry: Component = () => {
   const [snapshot, setSnapshot] = createSignal<TracerSnapshot | null>(null);
@@ -35,14 +38,21 @@ const NeedsEntry: Component = () => {
   const [selectedId, setSelectedId] = createSignal<number | null>(null);
   const [w100Rows, setW100Rows] = createSignal<W100RunnerTimes[] | null>(null);
   const [w100Problem, setW100Problem] = createSignal<string | null>(null);
-  const [dismissed, setDismissed] = createSignal<Set<string>>(new Set());
-  const [lastUndone, setLastUndone] = createSignal<string | null>(null);
   const [loading, setLoading] = createSignal(true);
   const [fatal, setFatal] = createSignal<string | null>(null);
   const [updatedAt, setUpdatedAt] = createSignal<string | null>(null);
+  const [tab, setTab] = createSignal<Tab>("enter");
+
+  // Everything below is session-only. None of it is written to localStorage:
+  // volunteers work the same station from several phones, and a reload has to
+  // put all of them back on what Tracer and W100 actually say.
+  const [dismissed, setDismissed] = createSignal<Set<string>>(new Set());
+  const [lastUndone, setLastUndone] = createSignal<string | null>(null);
   const [showDone, setShowDone] = createSignal(false);
+  const [checks, setChecks] = createSignal<Record<string, Check>>({});
 
   const station = createMemo(() => mapped().find((s) => s.w100Id === selectedId()) ?? null);
+  const raceStartMs = createMemo(() => parseRaceStart(status()?.RaceStartTime));
 
   // The <option> elements are rebuilt every time `mapped` changes, and a fresh
   // option list leaves the <select> showing its first entry (START) no matter
@@ -65,11 +75,14 @@ const NeedsEntry: Component = () => {
       participants: snap.participants,
       station: { id: st.tracerId },
       w100Rows: w100Rows(),
+      raceStartMs: raceStartMs(),
     });
   });
 
-  const visible = createMemo(() => (result()?.missing ?? []).filter((m) => !dismissed().has(m.key)));
-  const hidden = createMemo(() => (result()?.missing ?? []).filter((m) => dismissed().has(m.key)));
+  const toEnter = createMemo(() => (result()?.toEnter ?? []).filter((m) => !dismissed().has(m.key)));
+  const hidden = createMemo(() => (result()?.toEnter ?? []).filter((m) => dismissed().has(m.key)));
+  const missingIn = createMemo(() => result()?.missingIn ?? []);
+  const misaligned = createMemo(() => result()?.misaligned ?? []);
 
   /** Fetches W100 times for one station. Never throws -- failure means degraded. */
   async function loadW100Times(st: MappedStation) {
@@ -92,8 +105,19 @@ const NeedsEntry: Component = () => {
     }
   }
 
-  async function loadAll(opts: { clearDismissals: boolean }) {
+  /** Drops every per-row judgement, so the lists come back from the two APIs. */
+  function resetLocalState() {
+    batch(() => {
+      setDismissed(new Set<string>());
+      setLastUndone(null);
+      setShowDone(false);
+      setChecks({});
+    });
+  }
+
+  async function loadAll() {
     setLoading(true);
+    resetLocalState();
     try {
       const [snap, w100Stations, w100Status] = await Promise.all([
         tracer.getSnapshot(),
@@ -122,12 +146,6 @@ const NeedsEntry: Component = () => {
         // Persist the resolved station too, not just dropdown picks, so a
         // reload returns to the station the volunteer was actually looking at.
         saveRememberedStation(resolved);
-        if (opts.clearDismissals) {
-          clearDismissed(resolved);
-          setDismissed(new Set<string>());
-        } else {
-          setDismissed(loadDismissed(resolved));
-        }
         const st = stations.find((s) => s.w100Id === resolved);
         if (st) await loadW100Times(st);
       }
@@ -140,15 +158,14 @@ const NeedsEntry: Component = () => {
     }
   }
 
-  onMount(() => void loadAll({ clearDismissals: false }));
+  onMount(() => void loadAll());
 
   async function onSelect(id: number) {
     const st = mapped().find((s) => s.w100Id === id);
     if (!st) return;
+    resetLocalState();
     batch(() => {
       setSelectedId(id);
-      setDismissed(loadDismissed(id));
-      setLastUndone(null);
       setLoading(true);
     });
     saveRememberedStation(id);
@@ -162,33 +179,69 @@ const NeedsEntry: Component = () => {
   function markDone(key: string) {
     const next = new Set(dismissed());
     next.add(key);
-    setDismissed(next);
-    setLastUndone(key);
-    const id = selectedId();
-    if (id !== null) saveDismissed(id, next);
+    batch(() => {
+      setDismissed(next);
+      setLastUndone(key);
+    });
   }
 
   function undo(key: string) {
     const next = new Set(dismissed());
     next.delete(key);
-    setDismissed(next);
-    if (lastUndone() === key) setLastUndone(null);
-    const id = selectedId();
-    if (id !== null) saveDismissed(id, next);
+    batch(() => {
+      setDismissed(next);
+      if (lastUndone() === key) setLastUndone(null);
+    });
   }
 
+  /**
+   * Asks W100 about one runner, because /aid-station/{id}/times will not tell
+   * us: it hides a runner completely while their in-time is -1, out-time and
+   * all. One bib per press, never a sweep of the list.
+   */
+  async function check(item: StationRow) {
+    const id = selectedId();
+    if (id === null) return;
+    setChecks({ ...checks(), [item.key]: { state: "checking" } });
+    const settle = (tone: "good" | "warn", message: string) =>
+      setChecks({ ...checks(), [item.key]: { state: "done", tone, message } });
+
+    try {
+      const times = stationTimesFor(await w100.getRunnerTimes(item.bib), id);
+      const w100Out = times?.out ?? null;
+      const w100In = times?.in ?? null;
+
+      if (w100Out === null) {
+        settle("warn", w100In === null ? "Not entered yet" : "In time is in — press Refresh");
+        return;
+      }
+      const shown = formatElapsed(w100Out, raceStartMs());
+      if (item.tracerElapsed !== null && w100Out !== item.tracerElapsed) {
+        settle("warn", `W100 has ${shown ?? "a different time"}, Tracer has ${formatRaceTime(item.iso)}`);
+        return;
+      }
+      settle("good", shown ? `Already entered (${shown})` : "Already entered");
+    } catch (err) {
+      settle("warn", err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  // The live server reports "Production", not "Race" -- warning on anything
+  // that is not literally "race" put a "this comparison is not meaningful"
+  // banner above the queue for the whole event.
+  const LIVE_MODES = new Set(["race", "production"]);
   const testMode = createMemo(() => {
     const s = status();
-    return s ? s.OperatingMode.toLowerCase() !== "race" : false;
+    return s ? !LIVE_MODES.has(s.OperatingMode.toLowerCase().trim()) : false;
   });
 
   return (
     <div class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div class="mx-auto max-w-2xl px-4 pb-24 pt-5">
         <header class="mb-4">
-          <h1 class="text-xl font-bold tracking-tight">Times to enter into W100</h1>
+          <h1 class="text-xl font-bold tracking-tight">Tracer vs W100</h1>
           <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            Recorded in Tracer, not yet in W100.
+            One look at Tracer's times for your aid station, sorted by what needs doing.
           </p>
         </header>
 
@@ -215,7 +268,7 @@ const NeedsEntry: Component = () => {
             type="button"
             class="rounded-lg bg-slate-900 px-5 py-3 text-base font-semibold text-white shadow-sm active:scale-[0.98] disabled:opacity-50 dark:bg-slate-100 dark:text-slate-900"
             disabled={loading()}
-            onClick={() => void loadAll({ clearDismissals: true })}
+            onClick={() => void loadAll()}
           >
             {loading() ? "Refreshing…" : "Refresh"}
           </button>
@@ -260,60 +313,128 @@ const NeedsEntry: Component = () => {
           </Banner>
         </Show>
 
-        <h2 class="mt-6 flex items-baseline justify-between">
-          <span class="text-lg font-semibold">Runners that need to be entered</span>
-          <span class="text-2xl font-bold tabular-nums">{visible().length}</span>
-        </h2>
+        <div class="mt-6 grid grid-cols-3 gap-1 rounded-xl bg-slate-200 p-1 dark:bg-slate-800">
+          <TabButton
+            active={tab() === "enter"}
+            count={toEnter().length}
+            label="To enter"
+            onSelect={() => setTab("enter")}
+          />
+          <TabButton
+            active={tab() === "missingIn"}
+            count={missingIn().length}
+            label="Missing in"
+            onSelect={() => setTab("missingIn")}
+          />
+          <TabButton
+            active={tab() === "misaligned"}
+            count={misaligned().length}
+            label="Misaligned"
+            onSelect={() => setTab("misaligned")}
+          />
+        </div>
 
-        <Show
-          when={visible().length > 0}
-          fallback={
-            <p class="mt-4 rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
-              <Show when={!loading()} fallback="Loading…">
-                Nothing to enter right now.
+        <Show when={tab() === "enter"}>
+          <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
+            Recorded in Tracer, not yet in W100, and ready to type.
+          </p>
+          <List
+            items={toEnter()}
+            loading={loading()}
+            empty="Nothing to enter right now."
+            render={(item) => <Row item={item} trailing={<DoneButton onClick={() => markDone(item.key)} />} />}
+          />
+
+          <Show when={hidden().length > 0}>
+            <section class="mt-8">
+              <button
+                type="button"
+                class="flex w-full items-center justify-between rounded-lg px-1 py-2 text-left text-sm font-medium text-slate-600 dark:text-slate-400"
+                onClick={() => setShowDone(!showDone())}
+              >
+                <span>Marked done ({hidden().length})</span>
+                <span aria-hidden="true">{showDone() ? "▲" : "▼"}</span>
+              </button>
+              <Show when={lastUndone()}>
+                {(key) => (
+                  <button
+                    type="button"
+                    class="mb-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium dark:border-slate-700"
+                    onClick={() => undo(key())}
+                  >
+                    Undo last ({undoLabel(key())})
+                  </button>
+                )}
               </Show>
-            </p>
-          }
-        >
-          <ul class="mt-3 space-y-2">
-            <For each={visible()}>{(item) => <Row item={item} onDone={() => markDone(item.key)} />}</For>
-          </ul>
+              <Show when={showDone()}>
+                <ul class="space-y-2 opacity-70">
+                  <For each={hidden()}>
+                    {(item) => (
+                      <Row item={item} trailing={<DoneButton done onClick={() => undo(item.key)} />} />
+                    )}
+                  </For>
+                </ul>
+              </Show>
+            </section>
+          </Show>
         </Show>
 
-        <Show when={hidden().length > 0}>
-          <section class="mt-8">
-            <button
-              type="button"
-              class="flex w-full items-center justify-between rounded-lg px-1 py-2 text-left text-sm font-medium text-slate-600 dark:text-slate-400"
-              onClick={() => setShowDone(!showDone())}
-            >
-              <span>Marked done ({hidden().length})</span>
-              <span aria-hidden="true">{showDone() ? "▲" : "▼"}</span>
-            </button>
-            <Show when={lastUndone()}>
-              {(key) => (
-                <button
-                  type="button"
-                  class="mb-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium dark:border-slate-700"
-                  onClick={() => undo(key())}
-                >
-                  Undo last ({key()})
-                </button>
+        <Show when={tab() === "missingIn"}>
+          <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
+            Tracer has a departure, W100 has no arrival for the runner. W100 will not show us their
+            out time until the in time lands, so Check asks about the one runner.
+          </p>
+          <List
+            items={missingIn()}
+            loading={loading()}
+            empty="Every runner here has an in time in W100."
+            render={(item) => (
+              <Row
+                item={item}
+                note={checks()[item.key]}
+                trailing={
+                  <button
+                    type="button"
+                    class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] disabled:opacity-50 dark:border-slate-700"
+                    disabled={checks()[item.key]?.state === "checking"}
+                    onClick={() => void check(item)}
+                  >
+                    {checks()[item.key]?.state === "checking" ? "…" : "Check"}
+                  </button>
+                }
+              />
+            )}
+          />
+        </Show>
+
+        <Show when={tab() === "misaligned"}>
+          <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
+            Both sides have the time and they disagree. One of them is a typo.
+          </p>
+          <Show
+            when={raceStartMs() !== null}
+            fallback={
+              <Banner tone="warn" title="Cannot compare times">
+                W100's race start time is unavailable, so Tracer's clock times cannot be lined up
+                against W100's elapsed times. Press Refresh.
+              </Banner>
+            }
+          >
+            <List
+              items={misaligned()}
+              loading={loading()}
+              empty="Every time that exists on both sides matches."
+              render={(item) => (
+                <Row item={item} w100Time={formatElapsed(item.w100Elapsed, raceStartMs())} />
               )}
-            </Show>
-            <Show when={showDone()}>
-              <ul class="space-y-2 opacity-70">
-                <For each={hidden()}>
-                  {(item) => <Row item={item} done onDone={() => undo(item.key)} />}
-                </For>
-              </ul>
-            </Show>
-          </section>
+            />
+          </Show>
         </Show>
 
         <footer class="mt-10 text-xs leading-relaxed text-slate-400 dark:text-slate-600">
-          Times shown are Tracer's, in Mountain time. Marking done hides a row until you press
-          Refresh; if the time is still missing in W100 it comes back.
+          Times shown are Tracer's, in Mountain time. Nothing is remembered between page loads
+          except your aid station — reload to pull both lists fresh and re-align with whoever else
+          is entering times.
         </footer>
       </div>
     </div>
@@ -328,7 +449,75 @@ function stationLabel(s: MappedStation): string {
   return s.w100Name && !same ? `${s.tracerName} — ${s.w100Name}` : s.tracerName;
 }
 
-const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> = (props) => {
+/** "153-out" is a storage key, not something to show a volunteer at 2am. */
+function undoLabel(key: string): string {
+  const [bib, kind] = key.split("-");
+  return `${formatBib(Number(bib))} ${kind}`;
+}
+
+const TabButton: Component<{
+  active: boolean;
+  count: number;
+  label: string;
+  onSelect: () => void;
+}> = (props) => (
+  <button
+    type="button"
+    aria-pressed={props.active}
+    class={`rounded-lg px-2 py-2 text-center text-sm font-semibold ${
+      props.active
+        ? "bg-white text-slate-900 shadow-sm dark:bg-slate-950 dark:text-slate-100"
+        : "text-slate-600 dark:text-slate-400"
+    }`}
+    onClick={() => props.onSelect()}
+  >
+    <span class="block truncate">{props.label}</span>
+    <span class="block text-lg font-bold tabular-nums leading-tight">{props.count}</span>
+  </button>
+);
+
+const List: Component<{
+  items: StationRow[];
+  loading: boolean;
+  empty: string;
+  render: (item: StationRow) => JSX.Element;
+}> = (props) => (
+  <Show
+    when={props.items.length > 0}
+    fallback={
+      <p class="mt-4 rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
+        <Show when={!props.loading} fallback="Loading…">
+          {props.empty}
+        </Show>
+      </p>
+    }
+  >
+    <ul class="mt-3 space-y-2">
+      <For each={props.items}>{(item) => props.render(item)}</For>
+    </ul>
+  </Show>
+);
+
+const DoneButton: Component<{ done?: boolean; onClick: () => void }> = (props) => (
+  // "Done", not "Mark done": the longer label ate ~45px of a 390px row, which
+  // is what pushed the copy button into it.
+  <button
+    type="button"
+    class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] dark:border-slate-700"
+    onClick={() => props.onClick()}
+  >
+    {props.done ? "Undo" : "Done"}
+  </button>
+);
+
+const Row: Component<{
+  item: StationRow;
+  /** W100's value for the same time, shown only where the two disagree. */
+  w100Time?: string | null;
+  /** Outcome of a per-runner Check, shown under the runner's name. */
+  note?: Check;
+  trailing?: JSX.Element;
+}> = (props) => {
   const time = createMemo(() => formatRaceTime(props.item.iso) ?? "");
   // "idle" | "copied" | "failed" -- reverts on a timer so the button never
   // sits there claiming a copy that happened a quarter of an hour ago.
@@ -346,7 +535,9 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
 
   return (
     <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">{props.item.bib}</div>
+      <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">
+        {formatBib(props.item.bib)}
+      </div>
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-1.5">
           <span
@@ -377,6 +568,13 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
             </span>
           </button>
         </div>
+        <Show when={props.w100Time}>
+          {(w) => (
+            <div class="text-sm font-medium text-red-700 dark:text-red-400">
+              W100 has <span class="tabular-nums">{w()}</span>
+            </div>
+          )}
+        </Show>
         <div class="truncate text-sm text-slate-500 dark:text-slate-400">
           <Show when={weekday(props.item.iso)}>
             {(day) => (
@@ -388,16 +586,22 @@ const Row: Component<{ item: MissingTime; done?: boolean; onDone: () => void }> 
           </Show>
           {props.item.runnerName ?? "Unknown runner"}
         </div>
+        <Show when={props.note?.state === "done" ? props.note : null}>
+          {(note) => (
+            <div
+              class={`text-sm font-medium ${
+                note().tone === "good"
+                  ? "text-emerald-700 dark:text-emerald-400"
+                  : "text-amber-700 dark:text-amber-400"
+              }`}
+              aria-live="polite"
+            >
+              {note().message}
+            </div>
+          )}
+        </Show>
       </div>
-      {/* "Done", not "Mark done": the longer label ate ~45px of a 390px row,
-          which is what pushed the copy button into it. */}
-      <button
-        type="button"
-        class="shrink-0 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold active:scale-[0.98] dark:border-slate-700"
-        onClick={() => props.onDone()}
-      >
-        {props.done ? "Undo" : "Done"}
-      </button>
+      {props.trailing}
     </li>
   );
 };

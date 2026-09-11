@@ -3,16 +3,23 @@
 import type { Entry, Participant, Station } from "./tracer";
 
 /**
- * An arbitrary base instant for synthetic Tracer times.
+ * An arbitrary base instant for synthetic Tracer times, and a race start an
+ * hour before it.
  *
- * The diff compares key *presence*, never time values, so synthetic entries do
- * not need to correspond to W100's elapsed seconds. That deliberately avoids
- * having to parse W100's "Tuesday, 28-Jul-26 05:00:00 MDT" race-start format.
+ * Most of the diff compares key *presence*, so entries generally need no
+ * relation to W100's elapsed seconds. The misalignment check is the exception:
+ * it needs both sides on the same clock, which is what `elapsedFor` gives.
  */
 const BASE_MS = Date.parse("2026-09-11T12:00:00.000Z");
+export const RACE_START_MS = Date.parse("2026-09-11T11:00:00.000Z");
 
 export function isoAt(offsetSeconds: number): string {
   return new Date(BASE_MS + offsetSeconds * 1000).toISOString();
+}
+
+/** The elapsed seconds W100 would hold for a synthetic Tracer time. */
+export function elapsedFor(iso: string): number {
+  return Math.round((Date.parse(iso) - RACE_START_MS) / 1000);
 }
 
 export function participant(bib: number, id = `p-${bib}`): Participant {

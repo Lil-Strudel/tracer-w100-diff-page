@@ -11,7 +11,7 @@
 
 import { describe, it, expect, beforeAll } from "vitest";
 import { TracerAPI, type TracerSnapshot, type Entry } from "./tracer";
-import { W100API, W100Error } from "./w100";
+import { W100API, W100Error, stationTimesFor } from "./w100";
 import { mapStations, w100IdForStation, displayedW100Id } from "./stations";
 import { diffStation } from "./diff";
 import { mockFetch, isoAt } from "./fixtures";
@@ -120,7 +120,9 @@ describe("Config B: diff over real Tracer entries with W100 mocked", () => {
       station: { id: stationId },
       w100Rows: [],
     });
-    expect(result.missing).toHaveLength(expected);
+    // Nothing in W100 means every in-time is work; each out-time is parked in
+    // missingIn, because W100 has no arrival for that runner to hang it on.
+    expect(result.toEnter.length + result.missingIn.length).toBe(expected);
     expect(result.degraded).toBe(false);
   });
 
@@ -145,7 +147,7 @@ describe("Config B: diff over real Tracer entries with W100 mocked", () => {
       station: { id: stationId },
       w100Rows,
     });
-    expect(result.missing).toHaveLength(expected);
+    expect(result.toEnter.length + result.missingIn.length).toBe(expected);
   });
 
   it("degrades to an unverified checklist when W100 is unreachable", () => {
@@ -157,7 +159,9 @@ describe("Config B: diff over real Tracer entries with W100 mocked", () => {
       w100Rows: null,
     });
     expect(result.degraded).toBe(true);
-    expect(result.missing).toHaveLength(expected);
+    // Degraded means nothing is known to be blocked, so it is all one list.
+    expect(result.toEnter).toHaveLength(expected);
+    expect(result.missingIn).toEqual([]);
   });
 
   it("produces stable dismissal keys of the form bib-kind", () => {
@@ -168,7 +172,7 @@ describe("Config B: diff over real Tracer entries with W100 mocked", () => {
       station: { id: stationId },
       w100Rows: [],
     });
-    for (const m of result.missing) {
+    for (const m of [...result.toEnter, ...result.missingIn, ...result.misaligned]) {
       expect(m.key).toBe(`${m.bib}-${m.kind}`);
     }
   });
@@ -208,6 +212,11 @@ describe("Config B: mocked W100 transport behaviour", () => {
     await expect(api.getStationTimes(2)).rejects.toMatchObject({ status: 500, message: "boom" });
   });
 
+  // /runner and /runner/{bib} return email addresses and phone numbers.
+  // /runner/{bib}/times returns times and nothing else, so it is fair game --
+  // the assertion has to tell those apart rather than banning the whole path.
+  const PII_ROSTER = /\/runner(\/\d+)?(\?|$)/;
+
   it("never requests the PII roster endpoint", async () => {
     const f = mockFetch({
       "/aid-station": { body: w100StationFixture },
@@ -217,8 +226,20 @@ describe("Config B: mocked W100 transport behaviour", () => {
     await api.getStations();
     await api.getStatus();
     await api.getStationTimes(4).catch(() => []);
-    expect(f.calls.some((u) => /\/runner(\b|\/|$)/.test(u))).toBe(false);
+    await api.getRunnerTimes(153).catch(() => []);
+    expect(f.calls.some((u) => PII_ROSTER.test(u))).toBe(false);
     expect(W100API.prototype).not.toHaveProperty("getRunners");
+  });
+
+  it("reads one runner's times from the times sub-resource, not the roster", async () => {
+    const row = { RunnerNumber: 153, AidStationID: 4, ElapsedTimeIn: -1, ElapsedTimeOut: 32700, Locked: 0 };
+    const f = mockFetch({ "/runner/153/times": { body: [row] } });
+    const api = new W100API(f, "/w100");
+
+    // The out-time /aid-station/4/times refuses to show while the in-time is -1.
+    expect(stationTimesFor(await api.getRunnerTimes(153), 4)).toEqual({ in: null, out: 32700 });
+    expect(f.calls).toEqual(["/w100/runner/153/times"]);
+    expect(f.calls.some((u) => PII_ROSTER.test(u))).toBe(false);
   });
 
   it("propagates a hard failure so the UI can enter degraded mode", async () => {

@@ -111,7 +111,8 @@ describe("Config A: diff against W100 rows", () => {
     );
 
     const result = diffStation({ entries, participants, station: s, w100Rows: rows });
-    expect(result.missing).toEqual([]);
+    expect(result.toEnter).toEqual([]);
+    expect(result.missingIn).toEqual([]);
     expect(result.tracerTimeCount).toBe(10);
   });
 
@@ -136,14 +137,14 @@ describe("Config A: diff against W100 rows", () => {
     );
 
     const result = diffStation({ entries, participants, station: s, w100Rows: rows });
-    expect(result.missing).toHaveLength(missingOut.length);
-    expect(result.missing.every((m) => m.kind === "out")).toBe(true);
-    expect(new Set(result.missing.map((m) => m.bib))).toEqual(
+    expect(result.toEnter).toHaveLength(missingOut.length);
+    expect(result.toEnter.every((m) => m.kind === "out")).toBe(true);
+    expect(new Set(result.toEnter.map((m) => m.bib))).toEqual(
       new Set(missingOut.map((r) => r.RunnerNumber)),
     );
   });
 
-  it("reports both times for bibs W100 has never seen", () => {
+  it("splits a bib W100 has never seen: the in-time is work, the out-time is blocked", () => {
     const known = new Set(rows.map((r) => r.RunnerNumber));
     const unknown: number[] = [];
     for (let bib = 9000; unknown.length < 3; bib++) {
@@ -164,10 +165,14 @@ describe("Config A: diff against W100 rows", () => {
       ),
     );
 
+    // A bib absent from /aid-station/{id}/times has no W100 in-time, and that
+    // endpoint hides an out-time recorded ahead of one -- so the out-time is
+    // not something this queue can honestly ask anyone to type.
     const result = diffStation({ entries, participants, station: s, w100Rows: rows });
-    expect(result.missing).toHaveLength(6);
-    expect(result.missing.filter((m) => m.kind === "in")).toHaveLength(3);
-    expect(result.missing.filter((m) => m.kind === "out")).toHaveLength(3);
+    expect(result.toEnter).toHaveLength(3);
+    expect(result.toEnter.every((m) => m.kind === "in")).toBe(true);
+    expect(result.missingIn).toHaveLength(3);
+    expect(result.missingIn.every((m) => m.kind === "out")).toBe(true);
   });
 
   it("handles a Tracer entry that omits the timeOut key entirely", () => {
@@ -190,8 +195,8 @@ describe("Config A: diff against W100 rows", () => {
       w100Rows: rows,
     });
 
-    expect(result.missing).toHaveLength(1);
-    expect(result.missing[0]).toMatchObject({ bib, kind: "in", key: `${bib}-in` });
+    expect(result.toEnter).toHaveLength(1);
+    expect(result.toEnter[0]).toMatchObject({ bib, kind: "in", key: `${bib}-in` });
   });
 
   it("ignores entries belonging to a different station", () => {
@@ -203,7 +208,9 @@ describe("Config A: diff against W100 rows", () => {
       station: s,
       w100Rows: rows,
     });
-    expect(result.missing).toEqual([]);
+    expect(result.toEnter).toEqual([]);
+    expect(result.missingIn).toEqual([]);
+    expect(result.misaligned).toEqual([]);
     expect(result.tracerTimeCount).toBe(0);
   });
 });
