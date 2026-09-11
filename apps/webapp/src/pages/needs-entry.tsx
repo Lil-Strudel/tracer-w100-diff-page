@@ -542,6 +542,33 @@ const DoneButton: Component<{ done?: boolean; onClick: () => void }> = (props) =
   </button>
 );
 
+/**
+ * Copy-button state that reverts on a timer, so a button never sits there
+ * claiming a copy that happened a quarter of an hour ago. One per target: the
+ * bib and the time are copied independently and must report independently.
+ */
+function createCopier() {
+  const [state, setState] = createSignal<"idle" | "copied" | "failed">("idle");
+  let revert: ReturnType<typeof setTimeout> | undefined;
+
+  async function copy(text: string) {
+    if (!text) return;
+    const ok = await copyText(text);
+    setState(ok ? "copied" : "failed");
+    clearTimeout(revert);
+    revert = setTimeout(() => setState("idle"), 1800);
+  }
+
+  onCleanup(() => clearTimeout(revert));
+  return { state, copy };
+}
+
+const CopyStatus: Component<{ state: "idle" | "copied" | "failed" }> = (props) => (
+  <span class="sr-only" aria-live="polite">
+    {props.state === "copied" ? "Copied" : props.state === "failed" ? "Copy failed" : ""}
+  </span>
+);
+
 const Row: Component<{
   item: StationRow;
   /** W100's value for the same time, shown only where the two disagree. */
@@ -551,25 +578,32 @@ const Row: Component<{
   trailing?: JSX.Element;
 }> = (props) => {
   const time = createMemo(() => formatRaceTime(props.item.iso) ?? "");
-  // "idle" | "copied" | "failed" -- reverts on a timer so the button never
-  // sits there claiming a copy that happened a quarter of an hour ago.
-  const [copyState, setCopyState] = createSignal<"idle" | "copied" | "failed">("idle");
-  let revert: ReturnType<typeof setTimeout> | undefined;
-
-  async function copy() {
-    const ok = await copyText(time());
-    setCopyState(ok ? "copied" : "failed");
-    clearTimeout(revert);
-    revert = setTimeout(() => setCopyState("idle"), 1800);
-  }
-
-  onCleanup(() => clearTimeout(revert));
+  const bibCopy = createCopier();
+  const timeCopy = createCopier();
 
   return (
     <li class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <div class="w-16 shrink-0 text-3xl font-bold tabular-nums leading-none">
-        {formatBib(props.item.bib)}
-      </div>
+      {/* The whole bib is the button rather than an icon beside it: the row
+          already fights for width at 390px, and a 3xl numeral is a far better
+          tap target than anything that would fit next to it. */}
+      <button
+        type="button"
+        class="-my-1 w-16 shrink-0 rounded-lg py-1 text-left active:bg-slate-100 dark:active:bg-slate-800"
+        title={`Copy bib ${props.item.bib}`}
+        aria-label={`Copy bib ${props.item.bib}`}
+        onClick={() => void bibCopy.copy(String(props.item.bib))}
+      >
+        <span
+          class={`block text-3xl font-bold tabular-nums leading-none ${
+            bibCopy.state() === "copied" ? "text-emerald-600 dark:text-emerald-400" : ""
+          }`}
+        >
+          {formatBib(props.item.bib)}
+        </span>
+        {/* Without this a bare numeral gives no hint that it is tappable. */}
+        <CopyIcon state={bibCopy.state()} class="mt-1 size-3.5" />
+        <CopyStatus state={bibCopy.state()} />
+      </button>
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-1.5">
           <span
@@ -592,12 +626,10 @@ const Row: Component<{
             disabled={!time()}
             title={`Copy ${time()}`}
             aria-label={`Copy ${time()}`}
-            onClick={() => void copy()}
+            onClick={() => void timeCopy.copy(time())}
           >
-            <CopyIcon state={copyState()} />
-            <span class="sr-only" aria-live="polite">
-              {copyState() === "copied" ? "Copied" : copyState() === "failed" ? "Copy failed" : ""}
-            </span>
+            <CopyIcon state={timeCopy.state()} />
+            <CopyStatus state={timeCopy.state()} />
           </button>
         </div>
         <Show when={props.w100Time}>
@@ -648,7 +680,7 @@ const Row: Component<{
   );
 };
 
-const CopyIcon: Component<{ state: "idle" | "copied" | "failed" }> = (props) => (
+const CopyIcon: Component<{ state: "idle" | "copied" | "failed"; class?: string }> = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -656,7 +688,7 @@ const CopyIcon: Component<{ state: "idle" | "copied" | "failed" }> = (props) => 
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class={`size-5 ${
+    class={`${props.class ?? "size-5"} ${
       props.state === "copied"
         ? "text-emerald-600 dark:text-emerald-400"
         : props.state === "failed"
